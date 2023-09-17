@@ -52,6 +52,13 @@ public class AuthController : Controller
             return View(model);
         }
 
+        if(user.IsEmailVerified == false)
+        {
+            TempData["ErrorMessage"] = "Your account is not activated!";
+            return RedirectToAction("ErrorPage", "Auth");
+
+        }
+
         if (!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
         {
             ModelState.AddModelError("Password", "Password is not valid");
@@ -130,6 +137,7 @@ public class AuthController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+    [HttpGet]
     public IActionResult Verify([FromQuery] int ID, [FromQuery] string token)
     {
         DateTime currentTime = DateTime.UtcNow;    
@@ -141,17 +149,24 @@ public class AuthController : Controller
                 user.IsEmailVerified = true;
                 _dbContext.Update(user);
                 _dbContext.SaveChanges();
-                RedirectToAction("Login", "Auth");
+                return RedirectToAction("Login", "Auth");
             }
             else
             {
-                ViewBag.ErrorMessage = "Activation link has expired!";
-                RedirectToAction("Register", "Auth");
+                TempData["ErrorMessage"] = "Activation link has expired!";
+                return RedirectToAction("ErrorPage", "Auth");
             }
         }
-        return NotFound("User not found");
+        
+        TempData["ErrorMessage"] = "User not found!";
+        return RedirectToAction("ErrorPage", "Auth");
     }
     #endregion
+    [HttpGet]
+    public IActionResult ErrorPage()
+    {
+        return View();
+    }
 
     #region Logout
 

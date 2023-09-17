@@ -26,7 +26,7 @@ namespace Pustok.Services.Concretes
             {
 
                 Subject = "Confirmation of Register",
-                Content = $"Hello dear {activatedUser.LastName + activatedUser.Name},You can activate your account by entering the link: " + _configuration["Server"] + "Auth/Verify" + $"?ID={ID}" + $"&token={token}",
+                Content = $"Hello dear {activatedUser.LastName + activatedUser.Name}, You can activate your account by entering the link: " + _configuration["Server"] + "Auth/Verify" + $"?ID={ID}" + $"&token={token}",
                 Receipents = new List<string> { activatedUser.Email }
             };
             _emailService.SendEmail(messageDto);

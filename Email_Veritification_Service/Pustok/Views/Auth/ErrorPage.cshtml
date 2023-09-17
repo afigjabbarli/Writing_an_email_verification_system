@@ -1,0 +1,31 @@
+﻿@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger custom-error-message">
+    <h1>Error Message:</h1><h1 style="margin-left:25px; color:red;">@errorMessage</h1>
+    </div>
+    
+}
+
+
+<style>
+    .custom-error-message {
+        background-color: white;
+        color: #abd373;
+        border: 5px solid #abd373;
+        border-radius: 16px; 
+        padding: 10px;
+        font-weight: bold; 
+        width:80%;
+        margin:0px auto;
+        display:flex;
+        align-items:center;
+        height: 150px;
+        background-color:grey;
+        margin-top:100px;
+    }
+</style>
