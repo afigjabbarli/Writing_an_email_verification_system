@@ -1,0 +1,67 @@
+﻿@model OrderUpdateViewModel
+@using Pustok.Contracts;
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Order" asp-action="Index">Orders</a></li>
+                    <li class="breadcrumb-item active">Edit Order</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Edit Order</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div asp-validation-summary="ModelOnly"></div>
+                <form method="POST" asp-controller="Order" asp-action="Update" id="submit-form">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-select" asp-for="Status">
+                                <option disabled>Select the size</option>
+                                @foreach (var statusEnum in Enum.GetValues<OrderStatus>())
+                                {
+                                    <option value="@((int)statusEnum)">@statusEnum.ToString()</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Status" class="invalid-feedback" style="display:block"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label asp-for="TrackingCode"></label>
+                                <input readonly class="form-control" asp-for="TrackingCode">
+                                <span asp-validation-for="TrackingCode" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label asp-for="UserFullName"></label>
+                                <input readonly class="form-control" asp-for="UserFullName">
+                                <span asp-validation-for="UserFullName" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary" type="submit" form="submit-form">Save</button>
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

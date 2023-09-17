@@ -1,0 +1,75 @@
+﻿@model List<OrderListItemViewModel>
+@{
+    string GetBadgeColor(Pustok.Contracts.OrderStatus status)
+    {
+        switch (status)
+        {
+            case OrderStatus.Created:
+                return "badge-soft-primary";
+            case OrderStatus.Approved:
+                return "badge-soft-warning";
+            case OrderStatus.Rejected:
+                return "badge-soft-danger";
+            case OrderStatus.Sent:
+                return "badge-soft-info";
+            case OrderStatus.Completed:
+                return "badge-soft-success";
+            default:
+                throw new Exception("Not impleted");
+        }
+    }
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Orders</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="orders-table" class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Status</th>
+                                <th>Tracking Code</th>
+                                <th>User Full Name</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 1;
+                            }
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@(rowCounter++)</td>
+                                    <td>
+                                        <span class="badge @GetBadgeColor(order.Status)">@order.StatusName</span>
+                                    </td>
+                                    <td>@order.TrackingCode</td>
+                                    <td>@order.UserFullName</td>
+                                    <td>@order.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    <td>
+                                        <a asp-controller="Order" asp-action="Update" asp-route-id="@order.Id" class="mr-2">
+                                            <i class="las la-pen text-secondary font-18"></i>
+                                        </a>
+                                        <a asp-controller="Order" asp-action="GetOrderItems" asp-route-id="@order.Id" class="mr-2">
+                                            <i class="las la-info text-secondary font-18"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

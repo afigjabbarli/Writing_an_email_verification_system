@@ -1,0 +1,68 @@
+﻿@model List<ProductListItemViewModel>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Products</h4>
+        </div>
+        <!--end page-title-box-->
+    </div>
+    <!--end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row justify-content-between">
+                    <div class="col-2">
+                        <a asp-controller="product" asp-action="add" type="button" class="btn btn-primary">
+                            + New product
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="users-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Category's name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 1;
+                            }
+                            @foreach (var product in Model)
+                            {
+                                <tr>
+                                    <td>@(rowCounter++)</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Description</td>
+                                    <td>@product.Color</td>
+                                    <td>@product.Size</td>
+                                    <td>@product.Price</td>
+                                    <td>@product.CategoryName</td>
+                                    <td>
+                                        <a asp-controller="product" asp-action="update" asp-route-id="@product.Id" class="mr-2"><i class="las la-pen text-secondary font-18"></i></a>
+
+                                        <button onclick="return confirm('Are you sure to delete?')" class="mr-2" form="remove-form-@product.Id"><i class="las la-trash-alt text-danger font-22"></i></button>
+                                        <form asp-controller="product" asp-action="delete" asp-route-id="@product.Id" method="POST" class="d-none" id="remove-form-@product.Id">
+                                            <input type="hidden" name="id" value="@product.Id">
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>

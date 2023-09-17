@@ -1,0 +1,58 @@
+﻿@model List<CategoryListItemViewModel>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Categories</h4>
+        </div>
+        <!--end page-title-box-->
+    </div>
+    <!--end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row justify-content-between">
+                    <div class="col-2">
+                        <a asp-controller="category" asp-action="add" type="button" class="btn btn-primary">
+                            + New category
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="categories-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 1;
+                            }
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>@(rowCounter++)</td>
+                                    <td>@category.Name</td>
+                                    <td>
+                                        <a asp-controller="category" asp-action="update" asp-route-id="@category.Id" class="mr-2"><i class="las la-pen text-secondary font-18"></i></a>
+
+                                        <button onclick="return confirm('Are you sure to delete?')" class="mr-2" form="remove-form-@category.Id"><i class="las la-trash-alt text-danger font-22"></i></button>
+                                        <form asp-controller="category" asp-action="delete" asp-route-id="@category.Id" method="POST" class="d-none" id="remove-form-@category.Id">
+                                            <input type="hidden" name="id" value="@category.Id">
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>

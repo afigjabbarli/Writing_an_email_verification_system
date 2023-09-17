@@ -1,0 +1,62 @@
+﻿@model OrderDetailsViewModel
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="order" asp-action="index" >Orders</a></li>
+                    <li class="breadcrumb-item active">@Model.TrackingCode</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Orders items</h4>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title"> Tracking code : @Model.TrackingCode  </div>
+                <div class="card-title"> Owner's full name : @Model.OwnerFullName  </div>
+                <div class="table-responsive">
+                    <table id="orders-table" class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Product name</th>
+                                <th>Product's price</th>
+                                <th>Selected size name</th>
+                                <th>Selected color name</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 1;
+                            }
+                            @foreach (var orderItem in Model.Items)
+                            {
+                                <tr>
+                                    <td>@(rowCounter++)</td>
+                                    <td>
+                                        <image src="@orderItem.ProductOrderPhoto" width="150px"></image>
+                                    </td>
+                                    <td>@orderItem.ProductName</td>
+                                    <td>$@orderItem.ProductPrice</td>
+                                    <td>@orderItem.ProductSizeName</td>
+                                    <td>@orderItem.ProductColorName</td>
+                                    <td>@orderItem.ProductQuantity</td>
+                                    <td>$@(orderItem.ProductPrice * orderItem.ProductQuantity)</td>
+                                    <td>@orderItem.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

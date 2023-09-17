@@ -1,0 +1,56 @@
+﻿@model List<EmailMessageListItemViewModel>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Email Messages</h4>
+        </div>
+        <!--end page-title-box-->
+    </div>
+    <!--end col-->
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row justify-content-between">
+                    <div class="col-2">
+                        <a asp-controller="emailmessage" asp-action="add" type="button" class="btn btn-primary">
+                            + New email message
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="email-messages-table" class="table table-striped mb-0 ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject</th>
+                                <th>Sent at</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCounter = 1;
+                            }
+                            @foreach (var emailMessage in Model)
+                            {
+                                <tr>
+                                    <td>@(rowCounter++)</td>
+                                    <td>@emailMessage.Subject</td>
+                                    <td>@emailMessage.SentAt</td>
+                                    <td>
+                                        <a asp-controller="emailmessage" asp-action="update" asp-route-id="@emailMessage.Id" class="mr-2"><i class="las la-pen text-secondary font-18"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--end /tableresponsive-->
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div> <!-- end col -->
+</div>

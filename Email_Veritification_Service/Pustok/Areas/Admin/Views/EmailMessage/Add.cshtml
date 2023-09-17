@@ -1,0 +1,63 @@
+﻿@model EmailMessageAddViewModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-end">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="emailmessage" asp-action="index">Email Messages</a></li>
+                    <li class="breadcrumb-item active">Add Email Message</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Add email message</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" asp-controller="emailmessage" asp-action="add" id="submit-form">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label asp-for="Subject"></label>
+                                <input class="form-control" asp-for="Subject">
+                                <span asp-validation-for="Subject" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label asp-for="Content"></label>
+                                <textarea class="form-control" asp-for="Content"></textarea>
+                                <span asp-validation-for="Content" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label>Receipents</label>
+                                <input class="form-control" asp-for="Receipents">
+                                <span asp-validation-for="Receipents" class="invalid-feedback" style="display:block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary" type="submit" form="submit-form">Save</button>
+                    <a asp-controller="emailmessage" asp-action="index" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
