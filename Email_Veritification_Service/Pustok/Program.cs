@@ -35,6 +35,7 @@ public class Program
             .AddScoped<IEmailService, MailkitEmailService>()
             .AddScoped<IOrderService, OrderService>()
             .AddScoped<INotificationService, NotificationService>()
+            .AddScoped<IVerificationService, VerificationService>() 
             .AddScoped<IBasketService, BasketService>()
             .AddHttpContextAccessor()
             .AddHttpClient();

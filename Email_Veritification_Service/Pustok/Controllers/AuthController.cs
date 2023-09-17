@@ -16,12 +16,13 @@ public class AuthController : Controller
 {
     private readonly PustokDbContext _dbContext;
     private readonly IUserService _userService;
+    private readonly IVerificationService _verificationService;
 
-
-    public AuthController(PustokDbContext dbContext, IUserService userService)
+    public AuthController(PustokDbContext dbContext, IUserService userService, IVerificationService verificationService)
     {
         _dbContext = dbContext;
         _userService = userService;
+        _verificationService = verificationService;
     }
 
     #region Login
@@ -109,12 +110,47 @@ public class AuthController : Controller
             Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
         };
 
+        string token = _verificationService.GenerateRandomVerificationToken();
+        user.VerificationToken = token; 
+
         _dbContext.Add(user);
         _dbContext.SaveChanges();
 
+        try
+        {
+            User activatedUser = _dbContext.Users.Single(u => model.Email == u.Email);
+            _verificationService.SendAccountActivationURL(activatedUser, activatedUser.Id, token);
+        }
+        catch (InvalidOperationException ex)
+        {
+
+            throw ex;
+        }
+        
+
         return RedirectToAction("Index", "Home");
     }
-
+    public IActionResult Verify([FromQuery] int ID, [FromQuery] string token)
+    {
+        DateTime currentTime = DateTime.UtcNow;    
+        var user = _dbContext.Users.SingleOrDefault(u => u.VerificationToken == token && u.Id == ID);
+        if (user != null)
+        {
+            if(currentTime.Hour - user.CreatedAt.Hour <= 2)
+            {
+                user.IsEmailVerified = true;
+                _dbContext.Update(user);
+                _dbContext.SaveChanges();
+                RedirectToAction("Login", "Auth");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Activation link has expired!";
+                RedirectToAction("Register", "Auth");
+            }
+        }
+        return NotFound("User not found");
+    }
     #endregion
 
     #region Logout

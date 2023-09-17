@@ -11,7 +11,8 @@ public class User : BaseEntity<int>, IAuditable
     public string Email { get; set; }
     public string Password { get; set; }
 
-
+    public string VerificationToken { get; set; }   
+    public bool IsEmailVerified { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
